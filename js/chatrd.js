@@ -9,6 +9,7 @@ const showTimestamps                = getURLParam("showTimestamps", true);
 const ampmTimeStamps                = getURLParam("ampmTimeStamps", false);
 const showBadges                    = getURLParam("showBadges", true);
 const showPlatformStatistics        = getURLParam("showPlatformStatistics", true);
+const showMergedStatistics          = getURLParam("showMergedStatistics", true);
 
 const chatThreshold                 = 50;
 const chatOneLine                   = getURLParam("chatOneLine", false);
@@ -43,6 +44,19 @@ if (showPlatformStatistics == true) {
     var statistics = document.querySelector('#statistics');
     statistics.style.display = '';
     statistics.style.zoom = chatFontSize;
+    if (showMergedStatistics == true) {
+        var mergedStats = document.querySelector('#merged');
+        mergedStats.style.display = '';
+        const updateMergedStats = async () => {
+            let viewers = Array.from(document.querySelectorAll(".viewers span")).reduce(
+                (sum, el) =>
+                    sum + (parseInt(DOMPurify.sanitize(el.textContent)) || 0), 0
+            );
+            console.log(formatNumber(DOMPurify.sanitize(viewers)) || "0")
+            mergedStats.querySelector('.viewers span').textContent = formatNumber(DOMPurify.sanitize(viewers)) || "0";
+        };
+        mergedStats.addEventListener('update-stats', updateMergedStats);
+    }
 }
 if (chatScrollBar == false) { chatContainer.classList.add('noscrollbar'); }
 if (chatOneLine == true && !chatHorizontal) { chatContainer.classList.add('oneline'); }

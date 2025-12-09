@@ -831,6 +831,7 @@ async function twitchUpdateStatistics(data) {
 
     const viewers = formatNumber(DOMPurify.sanitize(data.viewerCount))  || "0";
     document.querySelector('#statistics #twitch .viewers span').textContent = viewers;
+    document.querySelector('#merged').dispatchEvent(new Event('update-stats'));
 }
 
 

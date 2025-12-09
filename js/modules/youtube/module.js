@@ -470,6 +470,7 @@ async function youTubeUpdateStatistics(data) {
     })
 
     document.querySelector(`#statistics #youtubeStream-${id} .viewers span`).textContent = formatNumber(viewers);
+    document.querySelector('#merged').dispatchEvent(new Event('update-stats'));
     document.querySelector(`#statistics #youtubeStream-${id} .likes span`).textContent = formatNumber(likes);
 }
 

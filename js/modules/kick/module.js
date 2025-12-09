@@ -653,6 +653,7 @@ async function kickUpdateStatistics(data) {
     else {
         const viewers = formatNumber(DOMPurify.sanitize(data.livestream.viewer_count)) || "0";
         document.querySelector('#statistics #kick .viewers span').textContent = viewers;
+        document.querySelector('#merged').dispatchEvent(new Event('update-stats'));
     }
 }
 

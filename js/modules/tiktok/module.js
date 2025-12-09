@@ -668,6 +668,7 @@ async function tiktokUpdateStatistics(data, type) {
     if (type == 'viewers') {
         const viewers = formatNumber(DOMPurify.sanitize(data.viewerCount)) || "0";
         document.querySelector('#statistics #tiktok .viewers span').textContent = viewers;
+        document.querySelector('#merged').dispatchEvent(new Event('update-stats'));
     }
 
     if (type == 'likes') {
