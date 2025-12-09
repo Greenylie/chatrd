@@ -14,6 +14,9 @@ const showSmallTikTokGifts          = getURLParam("showSmallTikTokGifts", false)
 const showTikTokSubs                = getURLParam("showTikTokSubs", true);
 const showTikTokStatistics          = getURLParam("showTikTokStatistics", true);
 
+const tikfinityServerAddress        = getURLParam("tikfinityServerAddress", "127.0.0.1");
+const tikfinityServerPort           = getURLParam("tikfinityServerPort", "21213");
+
 const tiktokGiftsClasses = [
     { min: 1,  max: 9, class: 'normal-gift' },
     { min: 10,  max: 49, class: 'bigger-than-10' },
@@ -58,7 +61,7 @@ let tiktoJoinTimeOut;
 // TIKTOK CONNECT HANDLER
 
 async function tiktokConnection() {
-    const tikfinityWebSocketURL = 'ws://localhost:21213/'; // Replace with real URL
+    const tikfinityWebSocketURL = `ws://${tikfinityServerAddress}:${tikfinityServerPort}/`;
     const reconnectDelay = 10000; // 10 seconds
     const maxTries = 20;
     let retryCount = 0;

@@ -45,6 +45,28 @@ To send messages to **TikTok** using the *Chat Field*, you need to the following
 
 ---
 
+## 📡 Remote Connection (Dual PC Setup)
+
+If you want to run ChatRD on a different PC than the one running **Streamer.bot** and **TikFinity**, you need to follow these steps:
+
+**Important:** You must run the `chat.html` file locally on your PC (or via a local server) because browser security blocks WebSocket connections to insecure addresses (like `ws://192.168.x.x`) when the page is loaded via HTTPS (like GitHub Pages).
+
+### Streamer.bot
+1. Go to **Server/Clients → WebSocket Server**.
+2. Change the **Address** to `0.0.0.0`.
+3. Restart Streamer.bot.
+
+### TikFinity
+1. Navigate to your TikFinity installation directory and open this file: `<tikfinity>/app-<version>/resources/app/main.js`.
+2. Search for `127.0.0.1` and replace it with `0.0.0.0` (around line 951).
+3. Save the file and **make it read-only** by right-clicking it -> Properties -> Check "Read-only". (TikFinity resets this file on update/restart if not locked).
+4. Open an **Administrator PowerShell** prompt and execute the following command to allow the connection through Windows Firewall:
+   ```powershell
+   New-NetFirewallRule -DisplayName "Tikfinity Websocket Port (21213)" -Direction Inbound -LocalPort 21213 -Protocol TCP -Action Allow
+   ```
+
+---
+
 ## 💻 Commands supported by the Chat Field
 
 **Commands for Twitch**

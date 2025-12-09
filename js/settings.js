@@ -17,6 +17,7 @@ function saveSettingsToLocalStorage() {
     const colorfields = document.querySelectorAll("input[type=color]:not(.avoid)");
     const selects = document.querySelectorAll("select:not(.avoid)");
     const ranges = document.querySelectorAll("input[type=range]:not(.avoid)");
+    const hiddenfields = document.querySelectorAll("input[type=hidden]:not(.avoid)");
     const settings = {};
 
     checkboxes.forEach(cb => settings[cb.name] = cb.checked);
@@ -25,6 +26,10 @@ function saveSettingsToLocalStorage() {
     numberfields.forEach(nf => settings[nf.name] = nf.value);
     colorfields.forEach(cf => settings[cf.name] = cf.value);
     selects.forEach(s => settings[s.name] = s.value);
+    hiddenfields.forEach(hf => settings[hf.name] = hf.value);
+
+    const chatTemplateOrder = document.querySelector('input[name="chatTemplateOrder"]');
+    if (chatTemplateOrder) settings['chatTemplateOrder'] = chatTemplateOrder.value;
 
     localStorage.setItem("chatrdWidgetSettings", JSON.stringify(settings));
 
@@ -75,6 +80,60 @@ async function loadSettingsFromLocalStorage() {
         }
     });
 
+    if (settings.chatTemplateOrder) {
+        const activeList = document.getElementById('template-active-list');
+        const inactiveList = document.getElementById('template-inactive-list');
+        
+        if (activeList && inactiveList) {
+            const order = settings.chatTemplateOrder.split(',');
+            const allItems = [...activeList.querySelectorAll('.sortable-item'), ...inactiveList.querySelectorAll('.sortable-item')];
+            
+            // Clear lists
+            activeList.innerHTML = '';
+            inactiveList.innerHTML = '';
+
+            // Populate active list based on order
+            order.forEach(id => {
+                const item = allItems.find(i => i.dataset.id === id);
+                if (item) {
+                    activeList.appendChild(item);
+                }
+            });
+
+            // Populate inactive list with remaining items
+            allItems.forEach(item => {
+                if (!order.includes(item.dataset.id)) {
+                    inactiveList.appendChild(item);
+                }
+            });
+        }
+    }
+
+    // Force update hidden inputs based on loaded lists
+    const activeList = document.getElementById('template-active-list');
+    if (activeList) {
+        const activeItems = [...activeList.querySelectorAll('.sortable-item')];
+        const allItems = [...document.querySelectorAll('.sortable-item')];
+        
+        allItems.forEach(item => {
+            const id = item.dataset.id;
+            let inputName = '';
+            if (id === 'platform') inputName = 'showPlatform';
+            else if (id === 'avatar') inputName = 'showAvatar';
+            else if (id === 'timestamp') inputName = 'showTimestamps';
+            else if (id === 'badges') inputName = 'showBadges';
+            else if (id === 'pronouns') inputName = 'showPronouns';
+
+            if (inputName) {
+                const input = document.querySelector(`input[name="${inputName}"]`);
+                if (input) {
+                    const isActive = activeList.contains(item);
+                    input.value = isActive ? 'true' : 'false';
+                }
+            }
+        });
+    }
+
     document.querySelector('#font-value').textContent = Math.floor(document.querySelector('#font-slider').value * 100) + '%';
     document.querySelector('#bg-opacity-value').textContent = Math.floor(document.querySelector('#bg-opacity-slider').value * 100) + '%';
 }
@@ -91,6 +150,18 @@ async function saveStreamerBotSettings() {
     localStorage.setItem("chatrdStreamerBotSettings", JSON.stringify(settings));
 }
 
+async function saveTikFinitySettings() {
+    const tikfinityServerAddress = document.querySelector('input[type=text][name=tikfinityServerAddress]').value;
+    const tikfinityServerPort = document.querySelector('input[type=text][name=tikfinityServerPort]').value;
+
+    const settings = {
+        tikfinityServerAddress : tikfinityServerAddress,
+        tikfinityServerPort : tikfinityServerPort
+    }
+
+    localStorage.setItem("chatrdTikFinitySettings", JSON.stringify(settings));
+}
+
 async function loadStreamerBotSettings() {
     const saved = localStorage.getItem("chatrdStreamerBotSettings");
     if (!saved) return;
@@ -100,6 +171,18 @@ async function loadStreamerBotSettings() {
     Object.keys(settings).forEach(key => {
         const input = document.querySelector(`[type=text][name="${key}"]`);
         input.value = settings[key];
+    });
+}
+
+async function loadTikFinitySettings() {
+    const saved = localStorage.getItem("chatrdTikFinitySettings");
+    if (!saved) return;
+
+    const settings = JSON.parse(saved);
+
+    Object.keys(settings).forEach(key => {
+        const input = document.querySelector(`[type=text][name="${key}"]`);
+        if (input) input.value = settings[key];
     });
 }
 
@@ -134,6 +217,8 @@ function pushChangeEvents() {
 function generateUrl() {
     const streamerBotServerAddress = document.querySelector('input[type=text][name=streamerBotServerAddress]').value;
     const streamerBotServerPort = document.querySelector('input[type=text][name=streamerBotServerPort]').value;
+    const tikfinityServerAddress = document.querySelector('input[type=text][name=tikfinityServerAddress]').value;
+    const tikfinityServerPort = document.querySelector('input[type=text][name=tikfinityServerPort]').value;
 
     const outputField = document.getElementById("outputUrl");
     outputField.value = '';
@@ -159,6 +244,7 @@ function generateUrl() {
     const colorfields = document.querySelectorAll("input[type=color]:not(.avoid)");
     const selects = document.querySelectorAll("select:not(.avoid)");
     const ranges = document.querySelectorAll("input[type=range]:not(.avoid)");
+    const hiddenfields = document.querySelectorAll("input[type=hidden]:not(.avoid)");
 
     const params = new URLSearchParams();
 
@@ -168,8 +254,12 @@ function generateUrl() {
     colorfields.forEach(cf => params.set(cf.name, cf.value));
     textfields.forEach(tf => params.set(tf.name, tf.value));
     numberfields.forEach(nf => params.set(nf.name, nf.value));
+    hiddenfields.forEach(hf => params.set(hf.name, hf.value));
 
-    var finalChatRDURL = baseUrl + '?' + params.toString() + `&streamerBotServerAddress=${streamerBotServerAddress}&streamerBotServerPort=${streamerBotServerPort}`; 
+    const chatTemplateOrder = document.querySelector('input[name="chatTemplateOrder"]');
+    if (chatTemplateOrder) params.set('chatTemplateOrder', chatTemplateOrder.value);
+
+    var finalChatRDURL = baseUrl + '?' + params.toString() + `&streamerBotServerAddress=${streamerBotServerAddress}&streamerBotServerPort=${streamerBotServerPort}&tikfinityServerAddress=${tikfinityServerAddress}&tikfinityServerPort=${tikfinityServerPort}`; 
     outputField.value = finalChatRDURL
     const iframe = document.querySelector('#preview iframe');
     if (iframe) { iframe.src = finalChatRDURL; }
@@ -196,6 +286,79 @@ function copyUrl() {
     }).catch(err => {
         console.error("Failed to copy: ", err);
     });
+}
+
+/* -------------------------
+   Configurar Drag & Drop
+-------------------------- */
+function setupSortableList() {
+    const activeList = document.getElementById('template-active-list');
+    const inactiveList = document.getElementById('template-inactive-list');
+    const hiddenInput = document.querySelector('input[name="chatTemplateOrder"]');
+    
+    if (!activeList || !inactiveList || !hiddenInput) return;
+
+    const sortableOptions = {
+        group: 'shared',
+        animation: 150,
+        ghostClass: 'dragging',
+        onSort: function () {
+            updateOrder();
+        }
+    };
+
+    new Sortable(activeList, {
+        ...sortableOptions,
+        onAdd: function (evt) {
+            // Logic if needed when item added to active
+        }
+    });
+
+    new Sortable(inactiveList, {
+        ...sortableOptions,
+        onAdd: function (evt) {
+            const item = evt.item;
+            if (item.dataset.id === 'user') {
+                // Prevent moving user to inactive
+                // SortableJS doesn't have a simple "cancel" in onAdd that reverts animation perfectly,
+                // but moving it back works.
+                activeList.appendChild(item);
+                // Trigger update to ensure state is correct
+                updateOrder();
+            }
+        }
+    });
+
+    function updateOrder() {
+        const activeItems = [...activeList.querySelectorAll('.sortable-item')];
+        const inactiveItems = [...inactiveList.querySelectorAll('.sortable-item')];
+        
+        const order = activeItems.map(item => item.dataset.id).join(',');
+        hiddenInput.value = order;
+
+        // Update hidden inputs for visibility
+        const allItems = [...activeItems, ...inactiveItems];
+        allItems.forEach(item => {
+            const id = item.dataset.id;
+            let inputName = '';
+            if (id === 'platform') inputName = 'showPlatform';
+            else if (id === 'avatar') inputName = 'showAvatar';
+            else if (id === 'timestamp') inputName = 'showTimestamps';
+            else if (id === 'badges') inputName = 'showBadges';
+            else if (id === 'pronouns') inputName = 'showPronouns';
+
+            if (inputName) {
+                const input = document.querySelector(`input[name="${inputName}"]`);
+                if (input) {
+                    // Check if item is in active list
+                    const isActive = activeList.contains(item);
+                    input.value = isActive ? 'true' : 'false';
+                }
+            }
+        });
+
+        saveSettingsToLocalStorage();
+    }
 }
 
 /* -------------------------
@@ -492,6 +655,7 @@ function streamerBotConnect() {
             setupFooterNavBar();
             setupAddEmoteModal();
             setupPlatformToggles();
+            setupSortableList();
             speakerBotConnection();
             loadYouTubeCustomEmotes();
         },
@@ -502,6 +666,52 @@ function streamerBotConnect() {
             console.debug(`[ChatRD][Settings] Streamer.bot Disconnected!`);
         }
     });
+}
+
+/* -------------------------
+   Conexão com TikFinity
+-------------------------- */
+function tikfinityConnect() {
+    const tikfinityStatus = document.getElementById('tikfinityStatus');
+    const tikfinityServerAddress = document.querySelector('input[type=text][name=tikfinityServerAddress]').value;
+    const tikfinityServerPort = document.querySelector('input[type=text][name=tikfinityServerPort]').value;
+
+    if (tikfinityWebSocket) {
+        try {
+            console.debug("[ChatRD][Settings] Closing previous TikFinity connection...");
+            tikfinityWebSocket.close();
+            tikfinityWebSocket = null;
+        } catch (err) {
+            console.error("[ChatRD][Settings] Error closing previous TikFinity client:", err);
+        }
+    }
+
+    const wsUrl = `ws://${tikfinityServerAddress}:${tikfinityServerPort}/`;
+    
+    try {
+        tikfinityWebSocket = new WebSocket(wsUrl);
+
+        tikfinityWebSocket.onopen = () => {
+            console.debug(`[ChatRD][Settings] Connected to TikFinity successfully!`);
+            tikfinityStatus.classList.add('connected');
+            tikfinityStatus.querySelector('small').textContent = `Connected`;
+        };
+
+        tikfinityWebSocket.onclose = () => {
+            tikfinityStatus.classList.remove('connected');
+            tikfinityStatus.querySelector('small').textContent = `Awaiting for connection`;
+            console.debug(`[ChatRD][Settings] TikFinity Disconnected!`);
+        };
+
+        tikfinityWebSocket.onerror = (err) => {
+            console.error("[ChatRD][Settings] TikFinity Error:", err);
+            tikfinityStatus.classList.remove('connected');
+            tikfinityStatus.querySelector('small').textContent = `Error`;
+        };
+
+    } catch (e) {
+        console.error("[ChatRD][Settings] Failed to create TikFinity WebSocket:", e);
+    }
 }
 
 
@@ -553,10 +763,13 @@ async function speakerBotConnection() {
 -------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
     loadStreamerBotSettings();
-    setTimeout(() => { streamerBotConnect(); }, 1000);
+    loadTikFinitySettings();
+    setTimeout(() => { streamerBotConnect(); tikfinityConnect(); }, 1000);
 
     const streamerBotServerAddressSwitch = document.querySelector('input[type=text][name=streamerBotServerAddress]');
     const streamerBotServerPortSwitch = document.querySelector('input[type=text][name=streamerBotServerPort]');
+    const tikfinityServerAddressSwitch = document.querySelector('input[type=text][name=tikfinityServerAddress]');
+    const tikfinityServerPortSwitch = document.querySelector('input[type=text][name=tikfinityServerPort]');
 
     streamerBotServerAddressSwitch.addEventListener('input', () => {
         saveStreamerBotSettings();
@@ -566,6 +779,17 @@ document.addEventListener('DOMContentLoaded', () => {
     streamerBotServerPortSwitch.addEventListener('input', () => {
         saveStreamerBotSettings();
         streamerBotConnect();
+        generateUrl();
+    });
+
+    tikfinityServerAddressSwitch.addEventListener('input', () => {
+        saveTikFinitySettings();
+        tikfinityConnect();
+        generateUrl();
+    });
+    tikfinityServerPortSwitch.addEventListener('input', () => {
+        saveTikFinitySettings();
+        tikfinityConnect();
         generateUrl();
     });
 

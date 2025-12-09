@@ -10,6 +10,7 @@ const ampmTimeStamps                = getURLParam("ampmTimeStamps", false);
 const showBadges                    = getURLParam("showBadges", true);
 const showPlatformStatistics        = getURLParam("showPlatformStatistics", true);
 const showMergedStatistics          = getURLParam("showMergedStatistics", true);
+const chatTemplateOrder             = getURLParam("chatTemplateOrder", "timestamp,platform,avatar,pronouns,user,badges");
 
 const chatThreshold                 = 50;
 const chatOneLine                   = getURLParam("chatOneLine", false);
@@ -105,6 +106,17 @@ function addMessageItem(platform, clone, classes, userid, messageid) {
 
     const messageEl = clone.querySelector('.actual-message');
     const infoEl = clone.querySelector('.info');
+
+    // Reorder info elements
+    if (chatTemplateOrder) {
+        const order = chatTemplateOrder.split(',');
+        order.forEach(className => {
+            const el = infoEl.querySelector('.' + className);
+            if (el) {
+                infoEl.appendChild(el);
+            }
+        });
+    }
     
     getAndReplaceLinks(messageEl).then(() => {
         multiStreamChat(messageEl);
@@ -131,6 +143,12 @@ function addMessageItem(platform, clone, classes, userid, messageid) {
 
     if (showPlatform == false && showPlatformDot == false) {
         platformElement.remove();
+    }
+
+    const showPronouns = getURLParam("showPronouns", true);
+    const pronounsElement = clone.querySelector('.pronouns');
+    if (pronounsElement && !showPronouns) {
+        pronounsElement.remove();
     }
 
     const timestamp = clone.querySelector('.timestamp');    

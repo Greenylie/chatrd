@@ -51,6 +51,12 @@
                                 <label>Port</label>
                                 <input type="text" name="streamerBotServerPort" value="8080" class="avoid">
                             </div>
+
+                            <div class="config" style="justify-content: center;">
+                                <small class="warning">
+                                    <i class="fa-solid fa-circle-info"></i> Connecting to another PC? <strong><a target="_blank" href="https://github.com/vortisrd/chatrd/blob/main/README.md#remote-connection-dual-pc-setup">Read this first</a></strong>.
+                                </small>
+                            </div>
                         </div>
 
 
@@ -126,13 +132,13 @@
 
                             <hr>
                             
-                            <div class="config">
+                            <div class="config" style="justify-content: center;">
                                 <small class="warning">
                                     <i class="fa-solid fa-triangle-exclamation"></i> You need to set a Speech Engine and a Voice Alias on Speaker.bot. <strong><a target="_blank" href="https://speaker.bot/get-started/speech-engines">Follow the tutorial</a>.</strong>
                                 </small>
                             </div>
 
-                            <div class="config">
+                            <div class="config" style="justify-content: center;">
                                 <small class="warning">
                                     <i class="fa-solid fa-triangle-exclamation"></i> Speaker.bot's WebSocket need to be activated and running. <strong><a target="_blank" href="https://speaker.bot/api/websocket">Follow the tutorial</a>.</strong>
                                 </small>
@@ -156,35 +162,9 @@
                             <div class="config"><label>Scroll Bar<br><small>Adds a scrollbar.</small></label></label><label class="switch"><input type="checkbox" name="chatScrollBar"><span class="slider"></span></label></div>
 
                             <div class="config">
-                                <label>Size<br><small>Changes ChatRD's size</small></label>
-                                <label>
-                                    <input type="range" id="font-slider" name="chatFontSize" min="0.1" max="3" step="0.1" value="1">
-                                    <br><em id="font-value" class="slider-value">100%</em>
-                                </label>
-                            </div>
-
-                            <div class="config">
                                 <label>Font Family<br><small>Changes ChatRD's Font</small></label>
                                 <label>
                                     <input type="text" name="chatFontFamily" value="DM Sans">
-                                </label>
-                            </div>
-
-                            <div class="config">
-                                <label>Background Color<br><small>Changes ChatRD's background color</small></label>
-                                <label>
-                                    <input type="color" name="chatBackground" value="#121212">
-                                </label>
-                            </div>
-                            
-                            <div class="config">
-                                <label>
-                                    <i class="fa-solid fa-arrow-turn-up"></i> Background Opacity<br>
-                                    <small>Changes ChatRD's background color opacity</small>
-                                </label>
-                                <label>
-                                    <input type="range" id="bg-opacity-slider" name="chatBackgroundOpacity" min="0.0" max="1" step="0.1" value="1">
-                                    <br><em id="bg-opacity-value" class="slider-value">1</em>
                                 </label>
                             </div>
 
@@ -212,38 +192,6 @@
                             </div>
 
                             <div class="config">
-                                <label>Platforms<br><small>Shows the platforms logos.</small></label>
-                                <label class="switch"><input type="checkbox" name="showPlatform" checked><span class="slider"></span></label>
-                            </div>
-
-                            <div class="config">
-                                <label>Platforms Dots<br><small>Shows a 12x12px dot with the platform color instead of it's logo.<br>
-                                <strong><u>If enabled, it disables "Platforms" option above.</u></strong> (Twitch ToS is 🤮)</small></label>
-                                    
-                                <label class="switch"><input type="checkbox" name="showPlatformDot"><span class="slider"></span></label>
-                            </div>
-
-                            <div class="config">
-                                <label>Avatars</label>
-                                <label class="switch"><input type="checkbox" name="showAvatar" checked><span class="slider"></span></label>
-                            </div>
-
-                            <div class="config">
-                                <label>Timestamps</label>
-                                <label class="switch"><input type="checkbox" name="showTimestamps" checked><span class="slider"></span></label>
-                            </div>
-
-                            <div class="config">
-                                <label><i class="fa-solid fa-arrow-turn-up"></i> AM/PM</label>
-                                <label class="switch"><input type="checkbox" name="ampmTimeStamps"><span class="slider"></span></label>
-                            </div>
-
-                            <div class="config">
-                                <label>Badges</label>
-                                <label class="switch"><input type="checkbox" name="showBadges" checked><span class="slider"></span></label>
-                            </div>
-
-                            <div class="config">
                                 <label>Platform Statistics<br><small>Shows all platform statistics.</small></label>
                                 <label class="switch"><input type="checkbox" name="showPlatformStatistics" checked><span class="slider"></span></label>
                             </div>
@@ -262,8 +210,6 @@
                                 <label>Hide Chat Msg<br><small>Hides a message after X seconds. (0 disables it)</small></label>
                                 <input type="number" name="hideAfter" value="0">
                             </div>
-
-                            <hr>
                             
                             <div class="config">
                                 <label>Multi-Streamer Mode<br>
@@ -272,8 +218,6 @@
                                 </label>
                                 <label class="switch"><input type="checkbox" name="multiStreamerMode"><span class="slider"></span></label>
                             </div>
-
-                            <hr>
 
                             <div class="config">
                                 <label>Chat Field<br><small>Adds a chat field for you to type in your chat.</small></label>
@@ -285,10 +229,80 @@
                                 <label class="switch"><input type="checkbox" name="chatModeration"><span class="slider"></span></label>
                             </div>
 
-                            <div class="config">
+                            <div class="config" style="justify-content: center;">
                                 <small class="warning">
                                     <i class="fa-solid fa-circle-info"></i> The Chat Field also accepts <strong>/commands</strong>. <strong><a target="_blank" href="https://github.com/vortisrd/chatrd#-commands-supported-by-the-chat-field">Commands Supported</a>.</strong>
                                 </small>
+                            </div>
+
+                            <hr/>
+
+                            <div class="config">
+                                <h2><i class="fa-solid fa-palette"></i> Appearance</h2>
+                            </div>
+
+                            <div class="config">
+                                <label>Size<br><small>Changes ChatRD's size</small></label>
+                                <label>
+                                    <input type="range" id="font-slider" name="chatFontSize" min="0.1" max="3" step="0.1" value="1">
+                                    <br><em id="font-value" class="slider-value">100%</em>
+                                </label>
+                            </div>
+
+                            <div class="config">
+                                <label>Background Color<br><small>Changes ChatRD's background color</small></label>
+                                <label>
+                                    <input type="color" name="chatBackground" value="#121212">
+                                </label>
+                            </div>
+                            
+                            <div class="config">
+                                <label>
+                                    <i class="fa-solid fa-arrow-turn-up"></i> Background Opacity<br>
+                                    <small>Changes ChatRD's background color opacity</small>
+                                </label>
+                                <label>
+                                    <input type="range" id="bg-opacity-slider" name="chatBackgroundOpacity" min="0.0" max="1" step="0.1" value="1">
+                                    <br><em id="bg-opacity-value" class="slider-value">1</em>
+                                </label>
+                            </div>
+
+                            <div class="config">
+                                <label>Platforms Dots<br><small>Shows a 12x12px dot with the platform color instead of it's logo.<br>
+                                <strong><u>If enabled, it disables "Platforms" option above.</u></strong> (Twitch ToS is 🤮)</small></label>
+                                    
+                                <label class="switch"><input type="checkbox" name="showPlatformDot"><span class="slider"></span></label>
+                            </div>
+
+                            <div class="config">
+                                <label>Use 12 hour format<br><small>Uses AM/PM time format instead of 24 hour format</small></label>
+                                <label class="switch"><input type="checkbox" name="ampmTimeStamps"><span class="slider"></span></label>
+                            </div>
+
+                            <div class="config" style="display: block;">
+                                <label style="margin-bottom: 10px; display: block;">Template Order<br><small>Drag to reorder elements. Drag to "Hidden" to hide.</small></label>
+                                
+                                <label style="font-size: 0.8em; color: #888; margin-bottom: 5px; display: block;">Active Elements<br><small>Items here will be visible</small></label>
+                                <div class="sortable-list" id="template-active-list">
+                                    <div class="sortable-item" data-id="timestamp">Timestamp</div>
+                                    <div class="sortable-item" data-id="platform">Platform</div>
+                                    <div class="sortable-item" data-id="avatar">Avatar</div>
+                                    <div class="sortable-item" data-id="pronouns">Pronouns</div>
+                                    <div class="sortable-item" data-id="user">Username</div>
+                                    <div class="sortable-item" data-id="badges">Badges</div>
+                                </div>
+
+                                <label style="font-size: 0.8em; color: #888; margin: 15px 0 5px; display: block;">Hidden Elements<br><small>Move anything but username here to hide it</small></label>
+                                <div class="sortable-list" id="template-inactive-list">
+                                    <!-- Inactive items will be moved here -->
+                                </div>
+
+                                <input type="hidden" name="chatTemplateOrder" value="timestamp,platform,avatar,pronouns,user,badges" class="avoid">
+                                <input type="hidden" name="showPlatform" value="true">
+                                <input type="hidden" name="showAvatar" value="true">
+                                <input type="hidden" name="showTimestamps" value="true">
+                                <input type="hidden" name="showBadges" value="true">
+                                <input type="hidden" name="showPronouns" value="true">
                             </div>
 
                         </div>
@@ -479,6 +493,31 @@
                         <div class="setup" style="overflow: hidden; transition: max-height 0.4s, opacity 0.4s; display: none; max-height: 0px; opacity: 0;">
 
                             <div class="config">
+                                <label>TikFinity Status</label>
+                                <div id="tikfinityStatus" class="platform-enable">
+                                    <small>Awaiting for connection</small>
+                                    <label><i class="fa-solid fa-circle"></i></label>
+                                </div>
+                            </div>
+
+                            <div class="config">
+                                <label>Server</label>
+                                <input type="text" name="tikfinityServerAddress" value="127.0.0.1" class="avoid">
+                            </div>
+                            <div class="config">
+                                <label>Port</label>
+                                <input type="text" name="tikfinityServerPort" value="21213" class="avoid">
+                            </div>
+
+                            <div class="config" style="justify-content: center;">
+                                <small class="warning">
+                                    <i class="fa-solid fa-circle-info"></i> Connecting to another PC? <strong><a target="_blank" href="https://github.com/vortisrd/chatrd/blob/main/README.md#remote-connection-dual-pc-setup">Read this first</a></strong>.
+                                </small>
+                            </div>
+
+                            <hr>
+
+                            <div class="config">
                                 <label>Chat<br><small>Reads TikTok chat.</small></label>
                                 <label class="switch"><input type="checkbox" name="showTikTokMessages" checked><span class="slider"></span></label>
                             </div>
@@ -512,7 +551,7 @@
                                 <label class="switch"><input type="checkbox" name="showTikTokStatistics" checked><span class="slider"></span></label>
                             </div>
                             <hr>
-                            <div class="config">
+                            <div class="config" style="justify-content: center;">
                                 <small class="warning">
                                     <i class="fa-solid fa-circle-info"></i> If you have <strong>Chat Field</strong> enabled, you need to <strong><a target="_blank" href="https://github.com/vortisrd/chatrd/?tab=readme-ov-file#-sending-messages-to-tiktok">follow the instructions</a></strong> to send messages to TikTok.
                                 </small>
@@ -543,7 +582,7 @@
 
                         <div class="setup" style="overflow: hidden; transition: max-height 0.4s, opacity 0.4s; display: none; max-height: 0px; opacity: 0;">
 
-                            <div class="config">
+                            <div class="config" style="justify-content: center;">
                                 <small class="warning">
                                     <i class="fa-solid fa-triangle-exclamation"></i> During peak usage, <strong>Kick's API becomes unstable</strong> and takes longer to relay events. This is not an issue with Streamer.bot or ChatRD. Kick has <em>"infinite money glitch"</em>, so I hope it gets better in the future. 😣
                                 </small>
@@ -619,7 +658,7 @@
                         </div>
 
                         <div class="setup" style="overflow: hidden; transition: max-height 0.4s, opacity 0.4s; display: none; max-height: 0px; opacity: 0;">
-                            <div class="config">
+                            <div class="config" style="justify-content: center;">
                                 <small class="warning">
                                     <i class="fa-solid fa-circle-exclamation"></i> You need to connect StreamElements to Streamer.Bot.
                                     <strong><a target="_blank" href="https://docs.streamer.bot/guide/integrations/streamelements">Follow the tutorial</a>.</strong>
@@ -654,7 +693,7 @@
                         </div>
 
                         <div class="setup" style="overflow: hidden; transition: max-height 0.4s, opacity 0.4s; display: none; max-height: 0px; opacity: 0;">
-                            <div class="config">
+                            <div class="config" style="justify-content: center;">
                                 <small class="warning">
                                     <i class="fa-solid fa-circle-exclamation"></i> You need to connect Streamlabs to Streamer.Bot.
                                     <strong><a target="_blank" href="https://docs.streamer.bot/guide/integrations/streamlabs">Follow the tutorial</a>.</strong>
@@ -689,7 +728,7 @@
                         </div>
 
                         <div class="setup" style="overflow: hidden; transition: max-height 0.4s, opacity 0.4s; display: none; max-height: 0px; opacity: 0;">
-                            <div class="config">
+                            <div class="config" style="justify-content: center;">
                                 <small class="warning">
                                     <i class="fa-solid fa-circle-exclamation"></i> You need to connect Patreon to Streamer.Bot.
                                     <strong><a target="_blank" href="https://docs.streamer.bot/guide/integrations/patreon">Follow the tutorial</a>.</strong>
@@ -725,7 +764,7 @@
 
                         <div class="setup" style="overflow: hidden; transition: max-height 0.4s, opacity 0.4s; display: none; max-height: 0px; opacity: 0;">
 
-                            <div class="config">
+                            <div class="config" style="justify-content: center;">
                                 <small class="warning">
                                     <i class="fa-solid fa-circle-exclamation"></i> You need to connect TipeeeStream to Streamer.Bot.
                                     <strong><a target="_blank" href="https://docs.streamer.bot/guide/integrations/tipeee-stream">Follow the tutorial</a>.</strong>
@@ -761,7 +800,7 @@
                         </div>
 
                         <div class="setup" style="overflow: hidden; transition: max-height 0.4s, opacity 0.4s; display: none; max-height: 0px; opacity: 0;">
-                            <div class="config">
+                            <div class="config" style="justify-content: center;">
                                 <small class="warning">
                                     <i class="fa-solid fa-circle-exclamation"></i> You need to connect Ko-Fi to Streamer.Bot.
                                     <strong><a target="_blank" href="https://docs.streamer.bot/guide/integrations/ko-fi">Follow the tutorial</a>.</strong>
@@ -801,7 +840,7 @@
                         </div>
 
                         <div class="setup" style="overflow: hidden; transition: max-height 0.4s, opacity 0.4s; display: none; max-height: 0px; opacity: 0;">
-                            <div class="config">
+                            <div class="config" style="justify-content: center;">
                                 <small class="warning">
                                     <i class="fa-solid fa-circle-exclamation"></i> You need to connect Fourthwall to Streamer.Bot.
                                     <strong><a target="_blank" href="https://docs.streamer.bot/guide/integrations/fourthwall">Follow the tutorial</a>.</strong>
@@ -927,6 +966,7 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-notify@1.0.4/dist/simple-notify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@streamerbot/client@1.12.1/dist/streamerbot-client.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 
     
     <script src="js/speakerbot.js"></script>
