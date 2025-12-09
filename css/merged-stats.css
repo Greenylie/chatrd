@@ -1,0 +1,28 @@
+#statistics #merged {
+    background: #B8860B; /* Darker yellow / Ochre */
+    color: #FFFFFF;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 15px rgba(184, 134, 11, 0.5);
+    font-weight: bold;
+}
+
+#statistics #merged i.fa-link {
+    color: #FFFFFF;
+    font-size: 1.3em;
+    vertical-align: middle;
+}
+
+#statistics #merged .viewers i {
+    color: #FFFFFF;
+}
+
+#statistics #merged .likes.tiktok i {
+    color: #FFFFFF;
+    filter: none;
+}
+
+#statistics #merged .likes.youtube i {
+    color: #FFFFFF;
+    filter: none;
+}

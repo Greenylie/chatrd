@@ -49,12 +49,21 @@ if (showPlatformStatistics == true) {
         var mergedStats = document.querySelector('#merged');
         mergedStats.style.display = '';
         const updateMergedStats = async () => {
-            let viewers = Array.from(document.querySelectorAll(".viewers span")).reduce(
-                (sum, el) =>
-                    sum + (parseInt(DOMPurify.sanitize(el.textContent)) || 0), 0
-            );
-            console.log(formatNumber(DOMPurify.sanitize(viewers)) || "0")
+            let viewers = Array.from(document.querySelectorAll(".viewers span"))
+                .filter(el => !el.closest('#merged'))
+                .reduce(
+                    (sum, el) =>
+                        sum + (parseInt(DOMPurify.sanitize(el.textContent)) || 0), 0
+                );
+            let likes = Array.from(document.querySelectorAll(".likes span"))
+                .filter(el => !el.closest('#merged'))
+                .reduce(
+                    (sum, el) =>
+                        sum + (parseInt(DOMPurify.sanitize(el.textContent)) || 0), 0
+                );
+            
             mergedStats.querySelector('.viewers span').textContent = formatNumber(DOMPurify.sanitize(viewers)) || "0";
+            mergedStats.querySelector('.likes span').textContent = formatNumber(DOMPurify.sanitize(likes)) || "0";
         };
         mergedStats.addEventListener('update-stats', updateMergedStats);
     }
